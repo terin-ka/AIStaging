@@ -8,7 +8,7 @@ import { getError } from "../helpers/utils.js";
 import { getOptions } from "../abl/extern/getOptions-abl.js";
 import { getRender } from "../abl/extern/getRender-abl.js";
 import { postCreateRender } from "../abl/extern/postCreateRender-abl.js";
-import { postCreateVariation } from "../abl/extern/postCreateVariation-abl.js"
+import { postCreateVariation } from "../abl/extern/postCreateVariation-abl.js";
 
 const router = express.Router();
 

@@ -5,8 +5,8 @@ import cors from "cors";
 import { config } from "dotenv";  // vloží hodnoty ze souboru .env do process.env
 config();
 
-import externRouter from "./controller/extern-controller.js";  // router pro volání externí API
-// import stagingAPIRoutes from "./controller/stagingAPIRoutes.js";  // routes pro volání staging API
+import externRouter from "./controller/extern-controller.js";  // router pro volání extern API
+import stagingRouter from "./controller/staging-controller.js";  // router pro volání staging API
 // import testAPIRoutes from "./controller/testAPIRoutes.js";  // routes pro volání test API
 
 let app = express();
@@ -17,13 +17,13 @@ app.use(cors());
 // // Configuring body parser middleware - nezahrnuje multipart body
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-app.use(fileUpload());  // toto obslouží multipart body form - potřebuji k uploadu souboru
+app.use(fileUpload());  // toto potřebuji k uploadu souboru
 
-// //app.use(express.static("/public"));
+//app.use(express.static("/public"));
 
 // routes pro přímé volání API
 app.use('/api', externRouter);
-//app.use('/staging', stagingAPIRoutes);
+app.use('/staging', stagingRouter);
 // app.use('/test', testAPIRoutes);
 
 app.get("/hello", (_, res) => {
