@@ -1,0 +1,43 @@
+CREATE TABLE IF NOT EXISTS subscriber (
+  sub_id INTEGER PRIMARY KEY AUTOINCREMENT,
+  email TEXT NOT NULL UNIQUE,
+  name TEXT,
+  password TEXT,
+  start_date TEXT,
+  end_date TEXT,
+  last_run TEXT ,
+  last_render_id TEXT,
+  last_render_status TEXT,
+  total_count INTEGER DEFAULT 0,
+  max_count INTEGER DEFAULT 10,
+  disabled INTEGER DEFAULT 0
+)
+
+CREATE TABLE IF NOT EXISTS render (
+  render_id TEXT NOT NULL PRIMARY KEY,
+  render_status TEXT NOT NULL,
+  sub_id INTEGER NOT NULL,
+  render_date TEXT NOT NULL,
+  room_type TEXT,
+  style TEXT,
+  mode TEXT,
+  resolution TEXT,
+  declutter TEXT,
+  FOREIGN KEY (sub_id) REFERENCES subscriber (sub_id)
+    ON UPDATE RESTRICT
+    ON DELETE RESTRICT
+  );
+
+CREATE TABLE IF NOT EXISTS images (
+  img_id INTEGER PRIMARY KEY AUTOINCREMENT,
+  render_id TEXT NOT NULL,
+  image_url TEXT,
+  image_name TEXT,
+  room_type TEXT,
+  style TEXT,
+    FOREIGN KEY (render_id) REFERENCES render (render_id)
+    ON UPDATE RESTRICT
+    ON DELETE RESTRICT
+  );
+CREATE UNIQUE INDEX idx_images_render ON images(render_id,image_name);
+
