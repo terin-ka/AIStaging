@@ -6,7 +6,7 @@ export async function checkSubscription(subID) {
   try {
     var db = await Database.open(process.env.DB_FILE);
     /*načteme záznam subscribera*/
-    var row = await db.get(
+    let row = await db.get(
       "SELECT sub_id,end_date,start_date,total_count,max_count,disabled FROM subscriber WHERE sub_id = ?",
       [subID]
     );

@@ -7,6 +7,9 @@ import { syncRender } from "../abl/staging/syncRender-abl.js";
 import { createVariation } from "../abl/staging/createVariation-abl.js";
 import { createRender } from "../abl/staging/createRender-abl.js";
 import { checkSubscription } from "../abl/staging/checkSubscription-abl.js";
+import { getImage } from "../abl/staging/getImage-abl.js";
+import { getAll } from "../abl/staging/getAll-abl.js";
+
 
 const router = express.Router();
 
@@ -73,4 +76,26 @@ router.get("/subscription", async (req, res) => {
   }
 });
 
+//vrátí všechny url od jendnoho render_id
+router.get("/image", async (req, res) => {
+  if (!req.body.render_id) {
+    return res.status(400).send(getError("Render id must have value"));
+  }
+  try {
+    let data = await getImage(req.body.render_id);
+    res.status(200).send(data);
+  } catch (err) {
+    res.status(400).send(getError(err.message));
+  }
+});
+
+//vrátí všechny již vygenerované url
+router.get("/all", async (req, res) => {
+  try {
+    let data = await getAll();
+    res.status(200).send(data);
+  } catch (err) {
+    res.status(400).send(getError(err.message));
+  }
+});
 export default router;
