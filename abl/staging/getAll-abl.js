@@ -1,6 +1,5 @@
 import { Database } from "sqlite-async";
-import { getError, getOk } from "../../helpers/utils.js";
-
+//import { getError, getOk } from "../../helpers/utils.js";
 
 export async function getAll() {
   try {
