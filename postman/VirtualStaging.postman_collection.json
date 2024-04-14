@@ -1,0 +1,405 @@
+{
+	"info": {
+		"_postman_id": "e1fd5532-67fe-4b5d-b4e0-2ee9fd1b63a0",
+		"name": "VirtualStaging",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "34049354"
+	},
+	"item": [
+		{
+			"name": "getOptions",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:7000/api/options",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "7000",
+					"path": [
+						"api",
+						"options"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getRender",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:7000/api/render/cvKSZoEcOSQvZc54w55m",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "7000",
+					"path": [
+						"api",
+						"render",
+						"cvKSZoEcOSQvZc54w55m"
+					],
+					"query": [
+						{
+							"key": "render_id",
+							"value": "cvKSZoEcOSQvZc54w55m",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "syncRender",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"render_id\":\"N5V77LuGbjc8vCAM8Rpn\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:7000/staging/sync",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "7000",
+					"path": [
+						"staging",
+						"sync"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "postCreateRender",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "image_file",
+							"type": "file",
+							"src": "/C:/Users/terez/Downloads/prázdný pokoj.jpg"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:7000/api/render?Room_Type=bed&Style=modern&Mode=fast&Resolution=4k&Declutter=off",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "7000",
+					"path": [
+						"api",
+						"render"
+					],
+					"query": [
+						{
+							"key": "Room_Type",
+							"value": "bed"
+						},
+						{
+							"key": "Style",
+							"value": "modern"
+						},
+						{
+							"key": "Mode",
+							"value": "fast"
+						},
+						{
+							"key": "Resolution",
+							"value": "4k"
+						},
+						{
+							"key": "Declutter",
+							"value": "off"
+						},
+						{
+							"key": "wait_for_completion",
+							"value": "false",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "createRender",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "room_type",
+							"value": "bed",
+							"type": "text"
+						},
+						{
+							"key": "style",
+							"value": "modern",
+							"type": "text"
+						},
+						{
+							"key": "mode",
+							"value": "fast",
+							"type": "text"
+						},
+						{
+							"key": "resolution",
+							"value": "4k",
+							"type": "text"
+						},
+						{
+							"key": "declutter",
+							"value": "off",
+							"type": "text"
+						},
+						{
+							"key": "image_file",
+							"type": "file",
+							"src": "/C:/Users/terez/Downloads/prázdný pokoj.jpg"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:7000/staging/render",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "7000",
+					"path": [
+						"staging",
+						"render"
+					],
+					"query": [
+						{
+							"key": "Room_Type",
+							"value": "bed",
+							"disabled": true
+						},
+						{
+							"key": "Style",
+							"value": "modern",
+							"disabled": true
+						},
+						{
+							"key": "Mode",
+							"value": "fast",
+							"disabled": true
+						},
+						{
+							"key": "Resolution",
+							"value": "4k",
+							"disabled": true
+						},
+						{
+							"key": "Declutter",
+							"value": "off",
+							"disabled": true
+						},
+						{
+							"key": "wait_for_completion",
+							"value": "false",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "postCreateVariation",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"Room_Type\": \"dining\",\r\n  \"Style\": \"scandinavian\"\r\n}\r\n\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:7000/api/variation/MvpucKzq7i6wTlOTy3Sm",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "7000",
+					"path": [
+						"api",
+						"variation",
+						"MvpucKzq7i6wTlOTy3Sm"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "createVariation",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"render_id\":\"BZqXrfWbIt3Ij523JInP\",\r\n  \"room_type\": \"dining\",\r\n  \"style\": \"scandinavian\"\r\n}\r\n\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:7000/staging/variation",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "7000",
+					"path": [
+						"staging",
+						"variation"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "checkSubscription",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"sub_id\":1\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:7000/staging/subscription",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "7000",
+					"path": [
+						"staging",
+						"subscription"
+					],
+					"query": [
+						{
+							"key": "sub_id",
+							"value": "1",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getImages",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"render_id\":\"BZqXrfWbIt3Ij523JInP\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:7000/staging/image",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "7000",
+					"path": [
+						"staging",
+						"image"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getAll",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:7000/staging/all",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "7000",
+					"path": [
+						"staging",
+						"all"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
