@@ -1,7 +1,7 @@
 {
   "name": "server",
   "version": "1.0.0",
-  "description": "VirtualStaging",
+  "description": "AIStaging",
   "main": "app.js",
   "type": "module",
   "scripts": {
