@@ -1,5 +1,6 @@
 import path from "path";
 import { fileURLToPath } from "url";
+import crypto from "crypto";
 
 //https://bobbyhadz.com/blog/javascript-dirname-is-not-defined-in-es-module-scope
 
@@ -15,12 +16,22 @@ export function getDirname(metaUrl) {
   return __dirname;
 }
 
-export function getError(message) {
-  return { status: "error", info: message };
+export function getError(message, code = 500) {
+  return { status: "error", code: code, info: message, error: true };
 }
 
-export function getOk(message) {
-  return { status: "ok", info: message };
+export function getOk(message, data = null) {
+  return { status: "ok", code: 200, info: message, data: data, ok: true };
+}
+
+export function getAvatar(email) {
+  // Výpočet MD5 hashe
+  const hash = crypto
+    .createHash("md5")
+    .update(email.toLowerCase(), "utf8")
+    .digest("hex");
+  // Generování URL pro Gravatar
+  return `https://www.gravatar.com/avatar/${hash}?d=identicon`;
 }
 
 /*z url renderu vybere jméno souboru renderu*/
