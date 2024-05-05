@@ -1,0 +1,73 @@
+@import "~react-image-gallery/styles/css/image-gallery.css";
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+.App {
+  padding: 0;
+}
+
+.Header {
+  border-bottom: 1px solid #ddd;
+}
+.Header .me-auto .active{
+  background-color: rgb(217, 220, 222);
+  color:rgb(0, 0, 0);
+}
+
+.InputField {
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
+.dropdown-item, .dropdown-item.active {
+  color: #5b5454;
+}
+
+.dropdown-item.active {
+  background-color: #def;
+}
+
+.Sidebar {
+    padding: 15px 10px;
+    margin: 20px;
+    width: 40%px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.Sidebar button {
+  width: 70%;
+  align-self: center;
+}
+
+.Sidebar h2 {
+  font-size: 15px;
+  text-transform: uppercase;
+  font-weight: bold;
+  margin: 0px
+}
+
+.IconHeader {
+  margin-bottom: 8px;
+}
+
+.Sidebar Form.Select {
+  width: 70%;
+}
+
+.Sidebar .ImagePreview {
+   width: 180px;
+}

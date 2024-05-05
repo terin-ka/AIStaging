@@ -1,0 +1,19 @@
+Image gallery
+
+https://www.npmjs.com/package/react-image-gallery
+https://github.com/xiaolin/react-image-gallery
+https://linxtion.com/demo/react-image-gallery/
+
+
+Jak zobrazit preview k načtenému obrázku
+https://blog.logrocket.com/using-filereader-api-preview-images-react/
+
+Custom file input element
+https://dev.to/danireptor/how-to-style-and-customize-html-file-input-in-react-54fo
+
+práce s timerem
+https://devtrium.com/posts/set-interval-react
+https://www.geeksforgeeks.org/how-do-you-use-multiple-useeffect-in-a-component/
+
+stažení souboru z url
+https://learnreactui.dev/contents/how-to-download-a-file-in-react
