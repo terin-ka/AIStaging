@@ -1,4 +1,6 @@
-import { Stack } from "react-bootstrap";
+import Container from "react-bootstrap/Container";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
 import Spinner from "react-bootstrap/Spinner";
 import Body from "../components/Body";
 import GeneratorSidebar from "../components/GeneratorSidebar";
@@ -8,15 +10,14 @@ import { useState, useEffect } from "react";
 import { useApi } from "../contexts/ApiProvider";
 import { useUser } from "../contexts/UserProvider";
 
-export default function GeneratorPage() {
+export default function HomePage() {
   const api = useApi();
   const { user } = useUser();
-
-  const [images, setImages] = useState(null);    // pro hodnotu null zobrazíme spinner
+  const [images, setImages] = useState(null); // pro hodnotu null zobrazím spinner
 
   useEffect(() => {
     (async () => {
-      // pokud nemám render zobrazím specimen 
+      // pokud nemám render zobrazí specimen
       if (user.last_render_id) {
         let response = await api.getRenderImages(user.last_render_id);
         setImages(response.ok ? response.body.data : null);
@@ -29,16 +30,31 @@ export default function GeneratorPage() {
 
   return (
     <Body>
-      <Stack direction="horizontal">
-        <GeneratorSidebar />
-        <div className="image-gallery-wrapper">
-          {images === null ? (
-            <Spinner animation="border" />
-          ) : (
-            <ImageGallery items={images} showBullets="true" showIndex="true" thumbnailPosition="bottom" />
-          )}
-        </div>
-      </Stack>
+      <Container>
+        <h1>GENERÁTOR VIZUALIZACÍ</h1>
+        <Row className="justify-content-md-center">
+          <Col md={12} lg={4}>
+            <GeneratorSidebar />
+          </Col>
+          <Col md={12} lg={8}>
+            <div className="image-gallery-wrapper">
+              {images === null || images.length === 0 ? (
+              <Row className="justify-content-center">
+                <Spinner className="Spinner" animation="border" />
+              </Row>
+              ) : (
+                  <ImageGallery
+                    items={images}
+                    onErrorImageURL="/specimen.png"
+                    showBullets="true"
+                    showIndex="true"
+                    thumbnailPosition="bottom"
+                  />
+              )}
+            </div>
+          </Col>
+        </Row>
+      </Container>
     </Body>
   );
 }

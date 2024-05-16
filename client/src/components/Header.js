@@ -15,16 +15,16 @@ export default function Header() {
       <Container>
         <Navbar.Brand>
         <img  alt=""
-              src="/logo192.png"
+              src="/logo.png"
               width="30"
               height="30"
               className="d-inline-block align-top"
             />{' '}
-          VirtualStaging</Navbar.Brand>
+           VirtualStaging</Navbar.Brand>
           <Nav className="me-auto">
-            <Nav.Link  as={NavLink} to="/home">Home</Nav.Link>
-            <Nav.Link  as={NavLink} to="/generator">Generator</Nav.Link>
-            <Nav.Link  as={NavLink} to="/galerie">Galerie</Nav.Link>
+            <Nav.Link  as={NavLink} to="/home">HOME</Nav.Link>
+            <Nav.Link  as={NavLink} to="/generator">GENERÁTOR</Nav.Link>
+            <Nav.Link  as={NavLink} to="/galerie">GALERIE</Nav.Link>
           </Nav>
         <Nav>
           {/* přihlášeného uživatele zobrazuji pouze pokud jsem přihlášen */}

@@ -65,7 +65,7 @@ export default function GaleriePage() {
           {images === null ? (
             <Spinner animation="border" />
           ) : (
-            <ImageGallery items={images} showBullets="true" />
+            <ImageGallery items={images} showBullets="true" onErrorImageURL="/specimen.png" />
           )}
         </div>
 

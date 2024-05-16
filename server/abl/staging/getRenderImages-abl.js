@@ -7,7 +7,7 @@ export async function getRenderImages(render_id) {
     var db = await Database.open(process.env.DB_FILE);
     /*načtu záznam subscribera*/
     let rows = await db.all(
-      "SELECT img_id,image_url,image_name FROM images WHERE render_id = ? ORDER BY img_id",
+      "SELECT img_id,image_url,image_name FROM images WHERE render_id = ? ORDER BY img_id DESC",
       [render_id]
     );
     if (rows) {

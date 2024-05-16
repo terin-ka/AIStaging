@@ -1,6 +1,5 @@
 import Stack from "react-bootstrap/Stack";
 import Button from "react-bootstrap/Button";
-import Container from "react-bootstrap/Container";
 import Form from "react-bootstrap/Form";
 import Image from "react-bootstrap/Image";
 import Icon from "@mdi/react";
@@ -12,7 +11,7 @@ import {
   mdiAutoFix,
   mdiImage,
 } from "@mdi/js";
-import RenderingBtn from "../components/RenderingBtn";
+import RenderingBtn from "./RenderingBtn";
 import { useRef, useState, useEffect } from "react";
 import { useApi } from "../contexts/ApiProvider";
 import { useFlash } from "../contexts/FlashProvider";
@@ -32,8 +31,10 @@ export default function Sidebar() {
   const [file, setFile] = useState(null); // vybraný soubor, výchozí hodnota je null
   const [fileDataURL, setFileDataURL] = useState(null); // url pro načtení preview
   const [isSyncActive, setIsSyncActive] = useState(false); // signalizuje že probíhá dotazování na stav renderu tj.synchronizace
-  const [isRendering, setIsRendering] = useState(false); // signalizuje že bylo kliknuto na vytvořit render nebo variantu
-
+  const [isRenderingRender, setIsRenderingRender] = useState(false); // signalizuje že bylo kliknuto na vytvořit render nebo variantu
+  const [isRenderingVariation, setIsRenderingVariation] = useState(false); // signalizuje že bylo kliknuto na vytvořit render nebo variantu
+  const [buttonName, setButtonName] = useState(false)
+  
   /* reakce na výběr souboru v input elementu*/
   const handleFileChange = (e) => {
     const fl = e.target.files[0];
@@ -69,9 +70,10 @@ export default function Sidebar() {
 
   /*opakované dotazování na stav renderu dokud není done*/
   useEffect(() => {
-    // pokud chceme opakovaně dotazovat stav renderu, pak je nastavíme interval
+    // pokud chci opakovaně dotazovat stav renderu, pak nastavím interval
     const intervalId = setInterval(async () => {
       if (isSyncActive) {
+        //console.log(`isRenderingVariation ${isRenderingVariation}, button ${buttonName}`);
         console.log("Sync called - render_id : " + user.last_render_id);
         // pokud má přihlášený uživatel aktivní render a tento není done tak se dotážeme na stav
         if (user.last_render_id && user.last_render_status !== "done") {
@@ -87,6 +89,8 @@ export default function Sidebar() {
               ...user, // Copy the old fields
               last_render_status: "done",
             });
+            setButtonName("false");
+            console.log(`button ${buttonName}`);
             setIsSyncActive(false); // dále se nebudeme dotazovat na stav
             console.log("Sync done - render_id : " + user.last_render_id);
           } else {
@@ -99,9 +103,9 @@ export default function Sidebar() {
     }, 10000); /*spouštět po 10 sekundách */
     // cleanup code
     return () => {
-      clearInterval(intervalId);
+      clearInterval(intervalId);  
     };
-  }, [api, isSyncActive, user, setUser]);
+  }, [api, isSyncActive, user, setUser, buttonName]);
 
   /*vytvoření nového renderu*/
   const handleCreateRender = async (ev) => {
@@ -112,7 +116,8 @@ export default function Sidebar() {
       return;
     }
     if (file) {
-      setIsRendering(true); // signalizujeme vytváření renderu, button zobrazí spinner
+      setIsRenderingRender(true); // signalizujeme vytváření renderu, button zobrazí spinner
+      setButtonName("render"); 
       const formData = new FormData();
       formData.append("sub_id", user.sub_id);
       formData.append("room_type", roomTypeField.current.value);
@@ -127,7 +132,7 @@ export default function Sidebar() {
         );
         const response = await api.createRender(formData);
         if (response.ok) {
-          /*okamžitě změníme stav renderu a last_render_id
+          /*okamžitě změním stav renderu a last_render_id
           !!! nelze měnit přímo objekt user - je nutno o něm uvažovat jako o read only
           je nutno pomocí spread vytvořit nový objekt a v něm provést změnu a pak jím změnit state setUser */
           setUser({
@@ -135,9 +140,9 @@ export default function Sidebar() {
             last_render_status: "rendering",
             last_render_id:
               response.body.data
-                .render_id /*okamžitě změníme id posledního renderu*/,
+                .render_id /*okamžitě změním id posledního renderu*/,
           });
-          setIsSyncActive(true); /*spustíme timer pro testování stavu*/
+          setIsSyncActive(true); /*spustím timer pro testování stavu*/
           console.log(
             "Create render done - render_id : " + user.last_render_id
           );
@@ -148,15 +153,17 @@ export default function Sidebar() {
         flash(error.message, "danger");
         console.error(error);
       }
-      setIsRendering(false);
     }
+    setIsRenderingRender(false);
   };
 
   /*vytvoření varianty existujího renderu*/
   const handleCreateVariation = async (ev) => {
     ev.preventDefault();
     try {
-      setIsRendering(true);
+      setIsRenderingVariation(true);
+      setButtonName("variation");
+      console.log(`button ${buttonName}`); //tadz to nenastavilo
       console.log(
         "Create variation clicked - render_id : " + user.last_render_id
       );
@@ -183,15 +190,15 @@ export default function Sidebar() {
     } catch (error) {
       flash(error.message, "danger");
       console.error(error);
-    }
-    setIsRendering(false);
+    };
+    setIsRenderingVariation(false);
   };
 
   /*načtení stavu renderu z externího API*/
   const handleSync = async (ev) => {
     ev.preventDefault();
     if (user.last_render_id) {
-      setIsRendering(true);
+      setIsRenderingRender(true);
       try {
         const response = await api.syncRender(user.last_render_id); // načte stav z externího api a uloží ho do databáze
         if (response.ok) {
@@ -203,7 +210,7 @@ export default function Sidebar() {
         flash(error.message, "danger");
         console.error(error);
       }
-      setIsRendering(false);
+      setIsRenderingRender(false);
     }
   };
 
@@ -233,8 +240,8 @@ export default function Sidebar() {
     ev.preventDefault();
     if (user.last_render_id) {
       let response = await api.getRenderImages(user.last_render_id);
-      if (response.ok){
-        response.body.data.forEach(img => {
+      if (response.ok) {
+        response.body.data.forEach((img) => {
           downloadFile(img.original, img.description);
         });
       }
@@ -243,51 +250,44 @@ export default function Sidebar() {
 
   return (
     <Form className="Sidebar">
-      <Stack direction="vertical" gap={4}>
-        <Container>
-          <Form.Group controlId="formFile" className="mb-3">
-            <Stack direction="horizontal" className="IconHeader">
-              <Icon path={mdiImage} size={1} />
-              &nbsp;
-              <h2>Vlož obrázek</h2>
-            </Stack>
-            <Form.Control
-              type="file"
-              accept=".jpg,.jpeg"
-              onChange={handleFileChange}
-            />
-          </Form.Group>
-          {fileDataURL ? (
-            <Image
-              src={fileDataURL}
-              thumbnail
-              alt="preview"
-              className="ImagePreview"
-            />
-          ) : null}
-        </Container>
+      <Stack gap={4} className="col-md-9 mx-auto">
+        <Form.Group controlId="formFile">
+        <Stack direction="horizontal">
+            <Icon path={mdiImage} size={1} />
+            <h2 className="p-2">Vložit obrázek</h2>
+          </Stack>
+          <Form.Control
+            type="file"
+            accept=".jpg,.jpeg"
+            onChange={handleFileChange}
+          />
+        </Form.Group>
+        {fileDataURL ? (
+          <Image 
+            src={fileDataURL}
+            thumbnail
+            alt="preview"
+          />
+        ) : null}
 
-        <Stack direction="vertical" gap={3}>
-          <Container>
-            <Stack direction="horizontal" className="IconHeader">
+        <Stack gap={3} >
+          <div>
+            <Stack direction="horizontal">
               <Icon path={mdiBed} size={1} />
-              &nbsp;
-              <h2>Typ pokoje</h2>
+              <h2 className="p-2">Typ pokoje</h2>
             </Stack>
             <Form.Select ref={roomTypeField}>
               <option value="living">Obývací pokoj</option>
               <option value="bed">Ložnice</option>
               <option value="kitchen">Kuchyně</option>
               <option value="dining">Jídelna</option>
-              <option value="bathroom">Koupelna</option>
               <option value="home_office">Kancelář</option>
             </Form.Select>
-          </Container>
-          <Container>
-            <Stack direction="horizontal" className="IconHeader">
+          </div>
+          <div>
+            <Stack direction="horizontal">
               <Icon path={mdiSofa} size={1} />
-              &nbsp;
-              <h2>Styl pokoje</h2>
+              <h2 className="p-2">Styl pokoje</h2>
             </Stack>
             <Form.Select ref={styleField}>
               <option value="standard">Standardní</option>
@@ -299,48 +299,46 @@ export default function Sidebar() {
               <option value="farmhouse">Farmářský</option>
               <option value="coastal">Přímořský</option>
             </Form.Select>
-          </Container>
-          <Container>
-            <Stack direction="horizontal" className="IconHeader">
+          </div>
+          <div>
+            <Stack direction="horizontal">
               <Icon path={mdiCamera} size={1} />
-              &nbsp;
-              <h2>Rozlišení</h2>
+              <h2 className="p-2">Rozlišení</h2>
             </Stack>
             <Form.Select ref={resolutionField}>
               <option value="4k">4k</option>
               <option value="full-HD">Full-HD</option>
             </Form.Select>
-          </Container>
-          <Container>
-            <Stack direction="horizontal" className="IconHeader">
+          </div>
+          <div>
+            <Stack direction="horizontal">
               <Icon path={mdiTimerSandComplete} size={1} />
-              &nbsp;
-              <h2>Kvalita</h2>
+              <h2 className="p-2">Kvalita</h2>
             </Stack>
             <Form.Select ref={modeField}>
               <option value="fast">Rychlý</option>
               <option value="photorealism">Fotorealistický</option>
             </Form.Select>
-          </Container>
-          <Container>
-            <Stack direction="horizontal" className="IconHeader">
+          </div>
+          <div>
+            <Stack direction="horizontal">
               <Icon path={mdiAutoFix} size={1} />
-              &nbsp;
-              <h2>Odstranit nábytek</h2>
+              <h2 className="p-2">Odstranit nábytek</h2>
             </Stack>
             <Form.Select ref={declutterField}>
               <option value="off">Ne</option>
               <option value="on">Ano</option>
             </Form.Select>
-          </Container>
+          </div>
         </Stack>
+
         {/* Vytvořit vizualizaci - povoleno pouze pokud je načtený soubor
             Vytvořit variantu - povoleno pouze pokud je aktivní render
             Synchronizovat - povoleno pouze pokud je aktivní render + v produkci natvrdo hidden
             Stáhnout  - povoleno pouze pokud je aktivní render
-        */}
-        <Stack direction="vertical" gap={3}>
-          {isRendering || isSyncActive ? (
+          */}
+        <Stack gap={3} >
+          {isRenderingRender || (buttonName==="render") ? (
             <RenderingBtn />
           ) : (
             <Button
@@ -352,7 +350,7 @@ export default function Sidebar() {
               Vytvořit vizualizaci
             </Button>
           )}
-          {isRendering || isSyncActive ? (
+          {isRenderingVariation || (buttonName==="variation") ? (
             <RenderingBtn />
           ) : (
             <Button

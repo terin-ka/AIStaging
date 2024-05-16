@@ -18,6 +18,12 @@ code {
   padding: 0;
 }
 
+h1 {
+  font-size: 40px;
+  text-transform: uppercase;
+  font-weight: bold;
+  padding: 20px 0px;
+}
 .Header {
   border-bottom: 1px solid #ddd;
 }
@@ -39,35 +45,14 @@ code {
   background-color: #def;
 }
 
-.Sidebar {
-    padding: 15px 10px;
-    margin: 20px;
-    width: 40%px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.Sidebar button {
-  width: 70%;
-  align-self: center;
-}
-
 .Sidebar h2 {
   font-size: 15px;
   text-transform: uppercase;
   font-weight: bold;
-  margin: 0px
+  margin: 0px;
+  padding: 0px;
 }
 
-.IconHeader {
-  margin-bottom: 8px;
-}
-
-.Sidebar Form.Select {
-  width: 70%;
-}
-
-.Sidebar .ImagePreview {
-   width: 180px;
+.Spinner {
+  margin:300px 0px;
 }

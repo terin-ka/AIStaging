@@ -7,7 +7,7 @@ export async function getSubjectImages(sub_id) {
       var db = await Database.open(process.env.DB_FILE);
       /*načtu záznam subscribera*/
       let rows = await db.all(
-        "SELECT img_id,image_url,image_name FROM images img INNER JOIN render rnd ON rnd.render_id = img.render_id WHERE rnd.sub_id = ? ORDER BY rnd.render_date,img_id",
+        "SELECT img_id,image_url,image_name FROM images img INNER JOIN render rnd ON rnd.render_id = img.render_id WHERE rnd.sub_id = ? ORDER BY rnd.render_date,img_id DESC",
         [sub_id]
       );
       if (rows) {
