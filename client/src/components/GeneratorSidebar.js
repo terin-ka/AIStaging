@@ -270,7 +270,7 @@ export default function Sidebar() {
           />
         ) : null}
 
-        <Stack gap={3} >
+        <Stack gap={2} >
           <div>
             <Stack direction="horizontal">
               <Icon path={mdiBed} size={1} />
